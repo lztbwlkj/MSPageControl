@@ -8,6 +8,17 @@
 
 #import <UIKit/UIKit.h>
 NS_ASSUME_NONNULL_BEGIN
+typedef NS_ENUM(NSInteger, MSPageControlStyle) {
+    MSPageControlStyleSystem,//系统样式
+    MSPageControlStyleNumber //带有数字样式
+};
+
+typedef NS_ENUM(NSInteger, MSPageControlAnimation) {
+    MSPageControlAnimationSystem,//系统动画
+    MSPageControlAnimationLongChange,//小横线+小圆点 样式过渡动画
+    MSPageControlAnimationCustomer //自定义动画样式
+};
+
 @class MSPageControl;
 @protocol MSPageControlDelegate <NSObject>
 
@@ -18,6 +29,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MSPageControl : UIControl
 
+/**
+ MSPageControl的样式 目前只支持两种样式
+ */
+@property(nonatomic,assign) MSPageControlStyle pageControlStyle;
+
+/**
+ MSPageControl的过渡动画 目前只支持两种样式 其他样式需要自定义（自定义样式暂未开放）
+ */
+@property(nonatomic,assign) MSPageControlAnimation pageControlAnimation;
+
+@property(nonatomic,strong) UIFont *textFont;
+
+@property(nonatomic,strong) UIColor *textColor;
 /**
  协议属性
  */
@@ -63,12 +87,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) UIImage *currentDotImage;
 
 /**
- 是否是方形点
+ 是否是方形点 默认NO 显示圆形
  */
 @property(nonatomic, assign) BOOL dotsIsSquare;
 
 /**
- 当前选中点宽度与未选中点的宽度的倍数
+ 当前选中点宽度与未选中点的宽度的倍数 默认是1
+ * 计算方法 pageDotSize.width = pageDotSize.width * currentWidthMultiple；
  */
 @property(nonatomic, assign) CGFloat currentWidthMultiple;
 
@@ -101,6 +126,18 @@ NS_ASSUME_NONNULL_BEGIN
  让控制知道是否应该通过保持中心变大，或者只是变长（右侧扩张）。Default is YES.。
  */
 @property (nonatomic) BOOL shouldResizeFromCenter;
+
+
+/**
+ 提供系统样式的pageControl
+
+ @param frame 位置
+ @param numberOfPages page数量
+ @param dotColor 其他页面的dot颜色
+ @param currentDotColor 当前页面的dot颜色
+ @return pageControl
+ */
++ (instancetype)pageControlSystemWithFrame:(CGRect)frame numberOfPages:(NSInteger)numberOfPages otherDotColor:(UIColor *)dotColor currentDotColor:(UIColor *)currentDotColor;
 @end
 
 NS_ASSUME_NONNULL_END
