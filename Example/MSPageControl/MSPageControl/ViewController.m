@@ -2,7 +2,7 @@
 //  ViewController.m
 //  MSPageControl
 //
-//  Created by 米山 on 2019/6/27.
+//  Created by lztb on 2019/6/27.
 //  Copyright © 2019 lztbwlkj. All rights reserved.
 //
 
@@ -34,7 +34,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.view.backgroundColor = [UIColor lightGrayColor];
+    self.view.backgroundColor = [UIColor darkGrayColor];
     int pageCount = 5;
     
     self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 30, SCREEN_WIDTH, 100)];
@@ -126,7 +126,7 @@
     self.pageControl4.currentWidthMultiple = 2.5;
     self.pageControl4.pageDotSize = CGSizeMake(6, 6);
     //目前提供一种基本动画样式 如不需要可画不设置
-    self.pageControl4.pageControlAnimation = MSPageControlAnimationLongChange;
+    self.pageControl4.pageControlAnimation = MSPageControlAnimationSystem;
     [self.view addSubview:self.pageControl4];
     
 #pragma mark - scrollView5
@@ -175,7 +175,7 @@
     self.pageControl6.numberOfPages = pageCount;//
     self.pageControl6.delegate = self;
     //设置带有数字的page样式
-//    self.pageControl6.pageDotSize = CGSizeMake(15,15);
+    self.pageControl6.pageDotSize = CGSizeMake(15,8);
     //设置图片，也可以夹在网络图片
     self.pageControl6.dotImage = [UIImage imageNamed:@"pageControlDot"];
     self.pageControl6.currentDotImage = [UIImage imageNamed:@"pageControlCurrentDot"];

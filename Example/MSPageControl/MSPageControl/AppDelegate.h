@@ -2,7 +2,7 @@
 //  AppDelegate.h
 //  MSPageControl
 //
-//  Created by 米山 on 2019/6/27.
+//  Created by lztb on 2019/6/27.
 //  Copyright © 2019 lztbwlkj. All rights reserved.
 //
 

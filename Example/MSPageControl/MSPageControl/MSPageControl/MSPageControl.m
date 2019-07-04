@@ -2,7 +2,7 @@
 //  MSPageControl.m
 //  MSPageControl
 //
-//  Created by 米山 on 2019/6/27.
+//  Created by lztb on 2019/6/27.
 //  Copyright © 2019 lztbwlkj. All rights reserved.
 //
 
@@ -40,6 +40,8 @@ static CGSize const kDefaultDotSize = {8, 8};
 
 static BOOL const kDefaultDotsIsSquare = NO;
 
+
+static NSInteger const kDefaultCurrentWidthMultiple = 1;
 
 @interface MSPageControl ()
 /**
@@ -84,7 +86,7 @@ static BOOL const kDefaultDotsIsSquare = NO;
     self.dotColor = [UIColor colorWithWhite:1 alpha:0.5];//默认未选中点的颜色为白色，透明度50%
     self.currentDotColor = [UIColor whiteColor];//默认选中点的颜色为白色
     self.pageDotSize = kDefaultDotSize;//默认点的宽高分别为8
-    self.currentWidthMultiple = 1;//当前选中点宽度与未选中点的宽度的倍数，默认为1倍
+    self.currentWidthMultiple = kDefaultCurrentWidthMultiple;//当前选中点宽度与未选中点的宽度的倍数，默认为1倍
     self.dotsIsSquare = kDefaultDotsIsSquare;//默认是圆点
     self.shouldResizeFromCenter = kDefaultShouldResizeFromCenter;
     
@@ -106,24 +108,24 @@ static BOOL const kDefaultDotsIsSquare = NO;
 /**
  *  Resizes and moves the receiver view so it just encloses its subviews.
  */
-//- (void)sizeToFit{
-//    [self updateFrame:YES];
-//}
-//
-//- (void)updateFrame:(BOOL)overrideExistingFrame{
-//    CGPoint center = self.center;
-//    CGSize requiredSize = [self sizeForNumberOfPages:self.numberOfPages];
-//
-//    // We apply requiredSize only if authorize to and necessary
-//    if (overrideExistingFrame || ((CGRectGetWidth(self.frame) < requiredSize.width || CGRectGetHeight(self.frame) < requiredSize.height) && !overrideExistingFrame)) {
-//        self.frame = CGRectMake(CGRectGetMinX(self.frame), CGRectGetMinY(self.frame), requiredSize.width, requiredSize.height);
-//        if (self.shouldResizeFromCenter) {
-//            self.center = center;
-//        }
-//    }
-//
-//    [self resetDotViews];
-//}
+- (void)sizeToFit{
+    [self updateFrame:YES];
+}
+
+- (void)updateFrame:(BOOL)overrideExistingFrame{
+    CGPoint center = self.center;
+    CGSize requiredSize = [self sizeForNumberOfPages:self.numberOfPages];
+
+    // We apply requiredSize only if authorize to and necessary
+    if (overrideExistingFrame || ((CGRectGetWidth(self.frame) < requiredSize.width || CGRectGetHeight(self.frame) < requiredSize.height) && !overrideExistingFrame)) {
+        self.frame = CGRectMake(CGRectGetMinX(self.frame), CGRectGetMinY(self.frame), requiredSize.width, requiredSize.height);
+        if (self.shouldResizeFromCenter) {
+            self.center = center;
+        }
+    }
+
+    [self resetDotViews];
+}
 
 
 #pragma mark - Setters
@@ -288,14 +290,22 @@ static BOOL const kDefaultDotsIsSquare = NO;
             if (i == _currentPage) {
                 CGFloat currentPointViewWidth = self.pageDotSize.width * self.currentWidthMultiple;
                 dotView = [[UIImageView alloc] initWithImage:self.currentDotImage];
-                dotView.backgroundColor = self.currentDotColor;
+                if (self.currentDotImage) {
+                    dotView.backgroundColor = [UIColor clearColor];
+                }else{
+                    dotView.backgroundColor = self.currentDotColor;
+                }
                 dotView.frame = CGRectMake(startX, startY, currentPointViewWidth, self.pageDotSize.height);
                 dotView.layer.borderColor = self.currentDotBorderColor.CGColor;
                 dotView.layer.borderWidth = self.currentDotBorderWidth;
                 dotView.layer.cornerRadius = self.dotsIsSquare ? 0 : self.pageDotSize.height / 2;
             }else{
                 dotView = [[UIImageView alloc] initWithImage:self.dotImage];
-                dotView.backgroundColor = self.dotColor;
+                if (self.currentDotImage) {
+                    dotView.backgroundColor = [UIColor clearColor];
+                }else{
+                    dotView.backgroundColor = self.dotColor;
+                }
                 dotView.frame = CGRectMake(startX, startY, self.pageDotSize.width, self.pageDotSize.height);
                 dotView.layer.borderColor = self.dotBorderColor.CGColor;
                 dotView.layer.borderWidth = self.dotBorderWidth;
@@ -304,6 +314,7 @@ static BOOL const kDefaultDotsIsSquare = NO;
             
             startX = CGRectGetMaxX(dotView.frame) + self.spacingBetweenDots;
             
+            //数字样式
             if (self.pageControlStyle == MSPageControlStyleNumber) {
                 UILabel *indexLbl = [[UILabel alloc] initWithFrame:dotView.bounds];
                 indexLbl.text = [NSString stringWithFormat:@"%ld",(long)i+1];
@@ -320,15 +331,21 @@ static BOOL const kDefaultDotsIsSquare = NO;
             
             dotView.userInteractionEnabled = YES;
             dotView.clipsToBounds = YES;
+            dotView.layer.masksToBounds = YES;
         }
     }
     
     [self hidesForSinglePage];
 }
 
-//- (CGSize)sizeForNumberOfPages:(NSInteger)pageCount {
-//    return CGSizeMake((self.pageDotSize.width + self.spacingBetweenDots) * pageCount - self.spacingBetweenDots , self.pageDotSize.height);
-//}
+- (CGSize)sizeForNumberOfPages:(NSInteger)pageCount {
+    if (self.currentWidthMultiple != kDefaultCurrentWidthMultiple) {
+        CGFloat currentPointViewWidth = self.pageDotSize.width * self.currentWidthMultiple;
+        CGFloat width = self.pageDotSize.width;
+        return CGSizeMake(((currentPointViewWidth + self.spacingBetweenDots) + (width + self.spacingBetweenDots) * (pageCount-1)) - self.spacingBetweenDots , self.pageDotSize.height);
+    }
+    return CGSizeMake((self.pageDotSize.width + self.spacingBetweenDots) * pageCount - self.spacingBetweenDots , self.pageDotSize.height);
+}
 
 #pragma mark - Touch event
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -351,21 +368,31 @@ static BOOL const kDefaultDotsIsSquare = NO;
     
     UIImageView *oldDotView = (UIImageView *)[self.dots objectAtIndex:oldIndex];
     UIImageView *newDotView = (UIImageView *)[self.dots objectAtIndex:newIndex];
-//    [UIView animateWithDuration:0.25 animations:^{
-        oldDotView.layer.borderColor = self.dotBorderColor != nil ? [self.dotBorderColor CGColor] : self.dotColor.CGColor;
-        oldDotView.layer.borderWidth = self.dotBorderWidth ? self.dotBorderWidth : 0;
-        
-        newDotView.layer.borderColor = self.currentDotBorderColor ? [self.currentDotBorderColor CGColor] : [self.currentDotColor CGColor];
-        newDotView.layer.borderWidth = self.currentDotBorderWidth ? self.currentDotBorderWidth : 0;
-        
+  
+    //切换选中图片和未选中图片
+    if (self.currentDotImage != nil) {
+        newDotView.image = self.currentDotImage;
+    }
+    
+    if (self.dotImage != nil) {
+        oldDotView.image = self.dotImage;
+    }
+    
+    //动画过渡
+    if (newDotView.image == nil && newDotView.image == nil) {
+        //设置背景颜色
         oldDotView.backgroundColor = self.dotColor;
         newDotView.backgroundColor = self.currentDotColor;
-//    }];
-   
+    }
+    
+    oldDotView.layer.borderColor = self.dotBorderColor != nil ? [self.dotBorderColor CGColor] : self.dotColor.CGColor;
+    oldDotView.layer.borderWidth = self.dotBorderWidth ? self.dotBorderWidth : 0;
+    
+    newDotView.layer.borderColor = self.currentDotBorderColor ? [self.currentDotBorderColor CGColor] : [self.currentDotColor CGColor];
+    newDotView.layer.borderWidth = self.currentDotBorderWidth ? self.currentDotBorderWidth : 0;
     
     if (self.currentWidthMultiple != 1) {//如果当前选中点的宽度与未选中的点宽度不一样，则要改变选中前后两点的frame
         CGRect oldDotFrame = oldDotView.frame;
-        
         if (newIndex < oldIndex) {
             oldDotFrame.origin.x += self.pageDotSize.width * (self.currentWidthMultiple - 1);
         }
@@ -378,24 +405,17 @@ static BOOL const kDefaultDotsIsSquare = NO;
         }
         newDotFrame.size.width = self.pageDotSize.width * self.currentWidthMultiple;
 
-        if (self.pageControlAnimation == MSPageControlAnimationLongChange) {
-            [UIView animateWithDuration:0.25 animations:^{
+        if (self.pageControlAnimation == MSPageControlAnimationSystem) {
+            
+            [UIView animateWithDuration:0.3 animations:^{
                 oldDotView.frame = oldDotFrame;
                 newDotView.frame = newDotFrame;
             }];
+            
         }else{
             oldDotView.frame = oldDotFrame;
             newDotView.frame = newDotFrame;
         }
-      
-    }
-    
-    if (self.currentDotImage != nil) {//切换选中图片和未选中图片
-        newDotView.image = self.currentDotImage;
-    }
-
-    if (self.dotImage != nil) {//切换选中图片和未选中图片
-        oldDotView.image = self.dotImage;
     }
 
     if (newIndex - oldIndex > 1) {//点击圆点，中间有跳过的点
@@ -425,7 +445,6 @@ static BOOL const kDefaultDotsIsSquare = NO;
     if (!_dots) {
         _dots = [[NSMutableArray alloc] init];
     }
-    
     return _dots;
 }
 

@@ -2,7 +2,7 @@
 //  MSPageControl.h
 //  MSPageControl
 //
-//  Created by 米山 on 2019/6/27.
+//  Created by lztb on 2019/6/27.
 //  Copyright © 2019 lztbwlkj. All rights reserved.
 //
 
@@ -14,9 +14,8 @@ typedef NS_ENUM(NSInteger, MSPageControlStyle) {
 };
 
 typedef NS_ENUM(NSInteger, MSPageControlAnimation) {
-    MSPageControlAnimationSystem,//系统动画 默认
-    MSPageControlAnimationLongChange,//小横线+小圆点 样式过渡动画
-    MSPageControlAnimationCustomer //自定义动画样式(暂未完成)
+    MSPageControlAnimationNone,//没有动画
+    MSPageControlAnimationSystem,
 };
 
 @class MSPageControl;
@@ -148,6 +147,8 @@ typedef void(^didSelectPageAtIndex)(MSPageControl *pageControl,NSInteger index);
 @property (nonatomic) BOOL shouldResizeFromCenter;
 
 
+
+- (CGSize)sizeForNumberOfPages:(NSInteger)pageCount;
 /**
  提供系统样式的pageControl
 
