@@ -3,7 +3,7 @@
 #### 我先放个效果图吧！！使用方法请查看Demo
 #### 效果图
 
-![image](https://github.com/lztbwlkj/MSPageControl/效果图.png)
+![image](https://github.com/lztbwlkj/MSPageControl/blob/master/%E6%95%88%E6%9E%9C%E5%9B%BE.png)
 
 #### 使用方法
 pod 'MSPageControl'
