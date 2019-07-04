@@ -46,6 +46,7 @@ static BOOL const kDefaultDotsIsSquare = NO;
  *  Array of dot views for reusability and touch events.
  */
 @property (strong, nonatomic) NSMutableArray *dots;
+
 @end
 
 @implementation MSPageControl
@@ -183,16 +184,10 @@ static BOOL const kDefaultDotsIsSquare = NO;
 }
 
 - (void)setCurrentPage:(NSInteger)currentPage{
-    if (_currentPage == currentPage) return;
-    // If no pages, no current page to treat.
-    if (self.numberOfPages == 0 || currentPage == _currentPage) {
-        _currentPage = currentPage;
-        return;
-    }
+    if (_currentPage == currentPage || self.numberOfPages == 0 ) return;
     [self changeWithOldIndex:_currentPage atNewIndex:currentPage];
-    
-    _currentPage = currentPage;
 
+    _currentPage = currentPage;
 }
 
 - (void)setDotBorderWidth:(CGFloat)dotBorderWidth{
@@ -331,7 +326,6 @@ static BOOL const kDefaultDotsIsSquare = NO;
     [self hidesForSinglePage];
 }
 
-
 //- (CGSize)sizeForNumberOfPages:(NSInteger)pageCount {
 //    return CGSizeMake((self.pageDotSize.width + self.spacingBetweenDots) * pageCount - self.spacingBetweenDots , self.pageDotSize.height);
 //}
@@ -342,7 +336,11 @@ static BOOL const kDefaultDotsIsSquare = NO;
     UITouch *touch = [touches anyObject];
     if (touch.view != self) {
         NSInteger index = [self.dots indexOfObject:touch.view];
-        if ([self.delegate respondsToSelector:@selector(pageControl:didSelectPageAtIndex:)]) {
+        if (self.didSelectPageAtIndexBlock) {
+            self.didSelectPageAtIndexBlock(self, index);
+        }
+        
+        if (self.delegate && [self.delegate respondsToSelector:@selector(pageControl:didSelectPageAtIndex:)]) {
             [self.delegate pageControl:self didSelectPageAtIndex:index];
         }
     }
@@ -350,17 +348,20 @@ static BOOL const kDefaultDotsIsSquare = NO;
 
 
 - (void)changeWithOldIndex:(NSInteger)oldIndex atNewIndex:(NSInteger)newIndex{
+    
     UIImageView *oldDotView = (UIImageView *)[self.dots objectAtIndex:oldIndex];
     UIImageView *newDotView = (UIImageView *)[self.dots objectAtIndex:newIndex];
-
-    oldDotView.layer.borderColor = self.dotBorderColor != nil ? [self.dotBorderColor CGColor] : self.dotColor.CGColor;
-    oldDotView.layer.borderWidth = self.dotBorderWidth ? self.dotBorderWidth : 0;
-    
-    newDotView.layer.borderColor = self.currentDotBorderColor ? [self.currentDotBorderColor CGColor] : [self.currentDotColor CGColor];
-    newDotView.layer.borderWidth = self.currentDotBorderWidth ? self.currentDotBorderWidth : 0;
-    
-    oldDotView.backgroundColor = self.dotColor;
-    newDotView.backgroundColor = self.currentDotColor;
+//    [UIView animateWithDuration:0.25 animations:^{
+        oldDotView.layer.borderColor = self.dotBorderColor != nil ? [self.dotBorderColor CGColor] : self.dotColor.CGColor;
+        oldDotView.layer.borderWidth = self.dotBorderWidth ? self.dotBorderWidth : 0;
+        
+        newDotView.layer.borderColor = self.currentDotBorderColor ? [self.currentDotBorderColor CGColor] : [self.currentDotColor CGColor];
+        newDotView.layer.borderWidth = self.currentDotBorderWidth ? self.currentDotBorderWidth : 0;
+        
+        oldDotView.backgroundColor = self.dotColor;
+        newDotView.backgroundColor = self.currentDotColor;
+//    }];
+   
     
     if (self.currentWidthMultiple != 1) {//如果当前选中点的宽度与未选中的点宽度不一样，则要改变选中前后两点的frame
         CGRect oldDotFrame = oldDotView.frame;
@@ -371,6 +372,7 @@ static BOOL const kDefaultDotsIsSquare = NO;
         oldDotFrame.size.width = self.pageDotSize.width;
         
         CGRect newDotFrame = newDotView.frame;
+        
         if (newIndex > oldIndex) {
             newDotFrame.origin.x -= self.pageDotSize.width * (self.currentWidthMultiple - 1);
         }
@@ -397,7 +399,7 @@ static BOOL const kDefaultDotsIsSquare = NO;
     }
 
     if (newIndex - oldIndex > 1) {//点击圆点，中间有跳过的点
-        for (int i = 1; i<oldIndex; i++) {
+        for (NSInteger i = oldIndex + 1; i<newIndex; i++) {
             UIImageView *imageV = self.dots[i];
             CGRect frame = imageV.frame;
             frame.origin.x -= self.pageDotSize.width * (self.currentWidthMultiple - 1);
@@ -407,7 +409,7 @@ static BOOL const kDefaultDotsIsSquare = NO;
     }
     
     if (newIndex - oldIndex < -1) {//点击圆点，中间有跳过的点
-        for (int i = 1; i<oldIndex; i++) {
+        for (NSInteger i = newIndex + 1; i< oldIndex; i++) {
             UIImageView *imageV = self.dots[i];
             CGRect frame = imageV.frame;
             frame.origin.x += self.pageDotSize.width * (self.currentWidthMultiple - 1);
@@ -419,8 +421,7 @@ static BOOL const kDefaultDotsIsSquare = NO;
 
 
 #pragma mark - Getters
-- (NSMutableArray *)dots
-{
+- (NSMutableArray *)dots{
     if (!_dots) {
         _dots = [[NSMutableArray alloc] init];
     }

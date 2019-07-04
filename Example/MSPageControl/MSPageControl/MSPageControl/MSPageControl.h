@@ -9,17 +9,25 @@
 #import <UIKit/UIKit.h>
 NS_ASSUME_NONNULL_BEGIN
 typedef NS_ENUM(NSInteger, MSPageControlStyle) {
-    MSPageControlStyleSystem,//系统样式
+    MSPageControlStyleSystem,//系统样式 默认
     MSPageControlStyleNumber //带有数字样式
 };
 
 typedef NS_ENUM(NSInteger, MSPageControlAnimation) {
-    MSPageControlAnimationSystem,//系统动画
+    MSPageControlAnimationSystem,//系统动画 默认
     MSPageControlAnimationLongChange,//小横线+小圆点 样式过渡动画
-    MSPageControlAnimationCustomer //自定义动画样式
+    MSPageControlAnimationCustomer //自定义动画样式(暂未完成)
 };
 
 @class MSPageControl;
+/**
+ 点击dotView的回调方法
+
+ @param pageControl pageControl
+ @param index 点击的当前下标
+ */
+typedef void(^didSelectPageAtIndex)(MSPageControl *pageControl,NSInteger index);
+
 @protocol MSPageControlDelegate <NSObject>
 
 @optional
@@ -39,9 +47,21 @@ typedef NS_ENUM(NSInteger, MSPageControlAnimation) {
  */
 @property(nonatomic,assign) MSPageControlAnimation pageControlAnimation;
 
+/**
+ pageControlAnimation为MSPageControlStyleNumber时字体设置
+ */
 @property(nonatomic,strong) UIFont *textFont;
 
+/**
+ pageControlAnimation为MSPageControlStyleNumber时文本颜色设置
+ */
 @property(nonatomic,strong) UIColor *textColor;
+
+/**
+ 点击dotView的回调方法
+ */
+@property(nonatomic,copy) didSelectPageAtIndex didSelectPageAtIndexBlock;
+
 /**
  协议属性
  */
