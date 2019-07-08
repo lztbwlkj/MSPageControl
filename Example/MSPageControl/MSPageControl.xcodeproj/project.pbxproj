@@ -7,16 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5936775F22D34C5900075A51 /* MSPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5936775E22D34C5900075A51 /* MSPageControl.m */; };
 		5967467822C4AA7200243C83 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5967467722C4AA7200243C83 /* AppDelegate.m */; };
 		5967467B22C4AA7200243C83 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5967467A22C4AA7200243C83 /* ViewController.m */; };
 		5967467E22C4AA7200243C83 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5967467C22C4AA7200243C83 /* Main.storyboard */; };
 		5967468022C4AA7400243C83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5967467F22C4AA7400243C83 /* Assets.xcassets */; };
 		5967468322C4AA7400243C83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5967468122C4AA7400243C83 /* LaunchScreen.storyboard */; };
 		5967468622C4AA7400243C83 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5967468522C4AA7400243C83 /* main.m */; };
-		5967469222C4AB8800243C83 /* MSPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5967469122C4AB8800243C83 /* MSPageControl.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5936775D22D34C5900075A51 /* MSPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSPageControl.h; sourceTree = "<group>"; };
+		5936775E22D34C5900075A51 /* MSPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSPageControl.m; sourceTree = "<group>"; };
 		5967467322C4AA7200243C83 /* MSPageControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MSPageControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5967467622C4AA7200243C83 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		5967467722C4AA7200243C83 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -27,8 +29,6 @@
 		5967468222C4AA7400243C83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5967468422C4AA7400243C83 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5967468522C4AA7400243C83 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		5967469022C4AB8800243C83 /* MSPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSPageControl.h; sourceTree = "<group>"; };
-		5967469122C4AB8800243C83 /* MSPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSPageControl.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,6 +42,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5936775C22D34C5900075A51 /* MSPageControl */ = {
+			isa = PBXGroup;
+			children = (
+				5936775D22D34C5900075A51 /* MSPageControl.h */,
+				5936775E22D34C5900075A51 /* MSPageControl.m */,
+			);
+			name = MSPageControl;
+			path = ../../../MSPageControl;
+			sourceTree = "<group>";
+		};
 		5967466A22C4AA7200243C83 = {
 			isa = PBXGroup;
 			children = (
@@ -61,7 +71,7 @@
 		5967467522C4AA7200243C83 /* MSPageControl */ = {
 			isa = PBXGroup;
 			children = (
-				5967468F22C4AB8800243C83 /* MSPageControl */,
+				5936775C22D34C5900075A51 /* MSPageControl */,
 				5967467622C4AA7200243C83 /* AppDelegate.h */,
 				5967467722C4AA7200243C83 /* AppDelegate.m */,
 				5967467922C4AA7200243C83 /* ViewController.h */,
@@ -71,15 +81,6 @@
 				5967468122C4AA7400243C83 /* LaunchScreen.storyboard */,
 				5967468422C4AA7400243C83 /* Info.plist */,
 				5967468522C4AA7400243C83 /* main.m */,
-			);
-			path = MSPageControl;
-			sourceTree = "<group>";
-		};
-		5967468F22C4AB8800243C83 /* MSPageControl */ = {
-			isa = PBXGroup;
-			children = (
-				5967469022C4AB8800243C83 /* MSPageControl.h */,
-				5967469122C4AB8800243C83 /* MSPageControl.m */,
 			);
 			path = MSPageControl;
 			sourceTree = "<group>";
@@ -154,7 +155,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5967469222C4AB8800243C83 /* MSPageControl.m in Sources */,
+				5936775F22D34C5900075A51 /* MSPageControl.m in Sources */,
 				5967467B22C4AA7200243C83 /* ViewController.m in Sources */,
 				5967468622C4AA7400243C83 /* main.m in Sources */,
 				5967467822C4AA7200243C83 /* AppDelegate.m in Sources */,
