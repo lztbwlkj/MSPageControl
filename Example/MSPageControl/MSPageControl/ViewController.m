@@ -174,17 +174,15 @@
     self.pageControl6 = [[MSPageControl alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.scrollView6.frame), SCREEN_WIDTH, 25)];
     self.pageControl6.numberOfPages = pageCount;//
     self.pageControl6.delegate = self;
-    //设置带有数字的page样式
+    //设置了pagecControl图片属性 pageDotSize与currentWidthMultiple将失效
     self.pageControl6.pageDotSize = CGSizeMake(15,8);
-    //设置图片，也可以夹在网络图片
+    self.pageControl6.currentWidthMultiple = 10;
+    self.pageControl6.spacingBetweenDots = 6;
     self.pageControl6.dotImage = [UIImage imageNamed:@"pageControlDot"];
     self.pageControl6.currentDotImage = [UIImage imageNamed:@"pageControlCurrentDot"];
     self.pageControl6.dotsIsSquare = YES;//设置为方形点
     [self.view addSubview:self.pageControl6];
 }
-
-
-
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     CGFloat index = scrollView.contentOffset.x / scrollView.frame.size.width;

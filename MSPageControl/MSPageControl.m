@@ -148,9 +148,9 @@ static NSInteger const kDefaultCurrentWidthMultiple = 1;
 
 -(void)setPageDotSize:(CGSize)pageDotSize{
     _pageDotSize = pageDotSize;
-    if (self.dotImage && self.currentDotImage) {
-        _pageDotSize = self.dotImage.size;
-    }
+//    if (self.dotImage && self.currentDotImage) {
+//        _pageDotSize = self.dotImage.size;
+//    }
     [self resetDotViews];
 }
 
@@ -202,6 +202,7 @@ static NSInteger const kDefaultCurrentWidthMultiple = 1;
 -(void)setCurrentDotBorderWidth:(CGFloat)currentDotBorderWidth{
     if (_currentDotBorderWidth == currentDotBorderWidth) return;
     _currentDotBorderWidth = currentDotBorderWidth;
+   
     [self resetDotViews];
 }
 
@@ -209,7 +210,6 @@ static NSInteger const kDefaultCurrentWidthMultiple = 1;
     if (_dotBorderColor == dotBorderColor) return;
     _dotBorderColor = dotBorderColor;
     [self resetDotViews];
-
 }
 
 -(void)setCurrentDotBorderColor:(UIColor *)currentDotBorderColor{
@@ -262,6 +262,10 @@ static NSInteger const kDefaultCurrentWidthMultiple = 1;
     for (UIView *dotView in self.dots) {
         [dotView removeFromSuperview];
     }
+    if (self.dotImage || self.currentDotImage) {
+        _currentWidthMultiple = 1;
+        _pageDotSize = self.currentDotImage.size;
+    }
     
     [self.dots removeAllObjects];
     [self updateDots];
@@ -301,7 +305,7 @@ static NSInteger const kDefaultCurrentWidthMultiple = 1;
                 dotView.layer.cornerRadius = self.dotsIsSquare ? 0 : self.pageDotSize.height / 2;
             }else{
                 dotView = [[UIImageView alloc] initWithImage:self.dotImage];
-                if (self.currentDotImage) {
+                if (self.dotImage) {
                     dotView.backgroundColor = [UIColor clearColor];
                 }else{
                     dotView.backgroundColor = self.dotColor;

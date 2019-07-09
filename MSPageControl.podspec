@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "MSPageControl"
-  spec.version      = "0.0.2"
+  spec.version      = "0.0.3"
   spec.summary      = "一款样式多样的PageControl：数字、图片、横线+圆点，横线+方形点、设置边框颜色等等"
 
   # This description is used to generate tags and improve search results.
