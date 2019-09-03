@@ -48,14 +48,14 @@
         imageView.backgroundColor = [UIColor colorWithRed:random/255 green:random/255 blue:random/255 /255 alpha:1];
         [self.scrollView addSubview:imageView];
     }
-    
+
     self.pageControl = [MSPageControl pageControlSystemWithFrame:CGRectMake(0, CGRectGetMaxY(self.scrollView.frame), SCREEN_WIDTH, 25) numberOfPages:pageCount otherDotColor:[UIColor blueColor] currentDotColor:[UIColor redColor]];
     self.pageControl.delegate = self;
     [self.view addSubview:self.scrollView];
     [self.view addSubview:self.pageControl];
-    
-    
-    
+
+
+
 #pragma mark - scrollView2
     self.scrollView2 = [[UIScrollView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.pageControl.frame) + 10, SCREEN_WIDTH, 100)];
     self.scrollView2.delegate = self;
@@ -81,8 +81,8 @@
         [weakSelf.scrollView2 setContentOffset:CGPointMake(SCREEN_WIDTH * index, 0) animated:YES];
     };
     [self.view addSubview:self.pageControl2];
-    
-    
+
+
 #pragma mark - scrollView3
     self.scrollView3 = [[UIScrollView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.pageControl2.frame), SCREEN_WIDTH, 100)];
     self.scrollView3.delegate = self;
@@ -96,14 +96,14 @@
         [self.scrollView3 addSubview:imageView];
     }
     [self.view addSubview:self.scrollView3];
-    
+
     self.pageControl3 = [[MSPageControl alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.scrollView3.frame), SCREEN_WIDTH, 25)];
     self.pageControl3.numberOfPages = pageCount;//
     self.pageControl3.delegate = self;
     self.pageControl3.dotsIsSquare = YES;//是否是方形dot
-    
+
     [self.view addSubview:self.pageControl3];
-    
+
 #pragma mark - scrollView4
     self.scrollView4 = [[UIScrollView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.pageControl3.frame), SCREEN_WIDTH, 100)];
     self.scrollView4.delegate = self;
@@ -117,7 +117,7 @@
         [self.scrollView4 addSubview:imageView];
     }
     [self.view addSubview:self.scrollView4];
-    
+
     self.pageControl4 = [[MSPageControl alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.scrollView4.frame), SCREEN_WIDTH, 25)];
     self.pageControl4.numberOfPages = pageCount;//
     self.pageControl4.delegate = self;
@@ -128,7 +128,7 @@
     //目前提供一种基本动画样式 如不需要可画不设置
     self.pageControl4.pageControlAnimation = MSPageControlAnimationSystem;
     [self.view addSubview:self.pageControl4];
-    
+
 #pragma mark - scrollView5
     self.scrollView5 = [[UIScrollView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.pageControl4.frame), SCREEN_WIDTH, 100)];
     self.scrollView5.delegate = self;
@@ -142,7 +142,7 @@
         [self.scrollView5 addSubview:imageView];
     }
     [self.view addSubview:self.scrollView5];
-    
+
     self.pageControl5 = [[MSPageControl alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.scrollView5.frame), SCREEN_WIDTH, 25)];
     self.pageControl5.numberOfPages = pageCount;//
     self.pageControl5.delegate = self;
@@ -155,7 +155,7 @@
     self.pageControl5.textColor = [UIColor whiteColor];
 //    self.pageControl5.textFont = [UIFont systemFontOfSize:16];//设置字体大小
     [self.view addSubview:self.pageControl5];
-    
+
 #pragma mark - scrollView6
     self.scrollView6 = [[UIScrollView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.pageControl5.frame), SCREEN_WIDTH, 100)];
     self.scrollView6.delegate = self;
@@ -168,9 +168,9 @@
         imageView.backgroundColor = [UIColor colorWithRed:random/255 green:random/255 blue:random/255 /255 alpha:1];
         [self.scrollView6 addSubview:imageView];
     }
-    
+
     [self.view addSubview:self.scrollView6];
-    
+
     self.pageControl6 = [[MSPageControl alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.scrollView6.frame), SCREEN_WIDTH, 25)];
     self.pageControl6.numberOfPages = pageCount;//
     self.pageControl6.delegate = self;
@@ -182,6 +182,8 @@
     self.pageControl6.currentDotImage = [UIImage imageNamed:@"pageControlCurrentDot"];
     self.pageControl6.dotsIsSquare = YES;//设置为方形点
     [self.view addSubview:self.pageControl6];
+    
+    
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
@@ -228,5 +230,6 @@
         return;
     }
 }
+
 
 @end
